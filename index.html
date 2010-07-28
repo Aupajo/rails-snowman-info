@@ -18,8 +18,12 @@
     }
 
     article {
+     display: block;
      background-color: white;
      border-radius: 4px;
+     -moz-border-radius: 4px;
+     -webkit-border-radius: 4px;
+     -moz-box-shadow: 0 2px 5px rgba(0,0,0,0.3);
      -webkit-box-shadow: 0 2px 5px rgba(0,0,0,0.3);
      padding: 40px;
     }
@@ -71,6 +75,7 @@
     }
     
     footer {
+      display: block;
       font-size: 1.2em;
       text-align: center;
       padding-top: 1em;
@@ -81,7 +86,7 @@
     
     <article>
       <section id="example">
-        <span id="frosty">&#9731;</span>
+        <div id="frosty">&#9731;</div>
         <code>&amp;#9731;</code>
       </section>
     
