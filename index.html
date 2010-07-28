@@ -90,7 +90,7 @@
         <code>&amp;#9731;</code>
       </section>
     
-      <h1>What's with the <code>_snowman_</code> tag in Rails?</h1>
+      <h1>What's with the <code>_snowman</code> tag in Rails?</h1>
       
       <p>The <em>snowman</em> input tag forces Internet Explorer to properly respect your form's character encoding.</p>
       
@@ -102,11 +102,11 @@
       
       <p>Unfortunately, IE5+ will not look at <code>accept-charset</code> unless at least one character in the form's values is not in the page's charset. Since the user can override the default charset (which Rails sets to UTF-8), Rails provides a hidden input containing a unicode character, forcing IE to look at the <code>accept-charset</code>. The unicode character is a snowman. Here's what the tag looks like:</p>
       
-      <pre><code>&lt;input name="_snowman_" type="hidden" value="&amp;#9731;" /&gt;</code></pre>
+      <pre><code>&lt;input name="_snowman" type="hidden" value="&amp;#9731;" /&gt;</code></pre>
       
-      <p>You can safely ignore <code>params[:_snowman_]</code> in your Rails application.</p>
+      <p>You can safely ignore <code>params[:_snowman]</code> in your Rails application.</p>
       
-      <p><strong>Note:</strong> This is a brand new feature, and <code>_snowman_</code> may get renamed to <code>_e</code>.<p>
+      <p><strong>Note:</strong> This is a brand new feature, and <code>_snowman</code> may get renamed to <code>_e</code>.<p>
         
       
       <h1>Why does it matter? What's the impact on my users?</h1>
@@ -124,7 +124,8 @@
       </blockquote>
       
       <footer>
-        <a href="http://github.com/rails/rails/commit/25215d7285db10e2c04d903f251b791342e4dd6a">See the patch on GitHub</a>
+        <a href="http://github.com/rails/rails/commit/25215d7285db10e2c04d903f251b791342e4dd6a">See the patch on GitHub...</a>
+        <a href="http://github.com/rails/rails/commit/caab17611668ff18a3c8642b2d45b353be5d9691">and fix to it</a>
       </footer>
       
     </article>
