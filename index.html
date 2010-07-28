@@ -95,7 +95,7 @@
   &hellip;
 &lt;/form&gt;</code></pre>
       
-      <p>Unfortunately, IE5+ will not look at <code>accept-charset</code> unless at least one character in the form's values is not in the page's charset. Since the user can override the default charset (which Rails sets to UTF-8), Rails provides a hidden input containing a unicode character, forcing IE to look at the accept-charset. The unicode character is a snowman. Here's the tag:</p>
+      <p>Unfortunately, IE5+ will not look at <code>accept-charset</code> unless at least one character in the form's values is not in the page's charset. Since the user can override the default charset (which Rails sets to UTF-8), Rails provides a hidden input containing a unicode character, forcing IE to look at the <code>accept-charset</code>. The unicode character is a snowman. Here's what the tag looks like:</p>
       
       <pre><code>&lt;input name="_snowman_" type="hidden" value="&amp;#9731;" /&gt;</code></pre>
       
@@ -110,7 +110,7 @@
         
         <p>This means that if a user searches for "Ch&eacute; Guevara", it will come through incorrectly on the server-side. In Ruby 1.9, this will result in an encoding error when the text inevitably makes its way into the regular expression engine. In Ruby 1.8, it will result in broken results for the user.</p>
 
-        <p>By creating a parameter that can only be understood by IE as a unicode character, we are forcing IE to look at the accept-charset attribute, which then tells it to encode all of the characters as UTF-8, even ones that can be encoded in Latin-1.</p>
+        <p>By creating a parameter that can only be understood by IE as a unicode character, we are forcing IE to look at the <code>accept-charset</code> attribute, which then tells it to encode all of the characters as UTF-8, even ones that can be encoded in Latin-1.</p>
 
         <p>Keep in mind that in Ruby 1.8, it is extremely trivial to get Latin-1 data into your UTF-8 database (since NOTHING in the entire stack checks that the bytes that the user sent at any point are valid UTF-8 characters). As a result, it's extremely common for Ruby applications (and PHP applications, etc. etc.) to exhibit this user-facing bug, and therefore extremely common for users to try to change the encoding as a palliative measure.</p>
 
