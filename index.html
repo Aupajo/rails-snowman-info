@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="utf-8">
+  <title>Rails Snowman (&#9731;)</title>
+  <style type="text/css" media="screen">
+    body {
+     background-color: #eee;
+     color: #666;
+     font: 10pt/1.6em "Lucida Grande", "Lucida Sans Unicode", sans-serif;
+     margin: 2em auto;
+     width: 740px;
+    }
+
+    h1 {
+      color: black;
+      font-size: 1.4em;
+      margin: 2em 0 0.5em;
+    }
+
+    article {
+     background-color: white;
+     border-radius: 4px;
+     -webkit-box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+     padding: 40px;
+    }
+    
+    a { text-decoration: none; }
+    
+      a:link, a:visited { color: #1F66C7; }
+      a:hover { color: #CF470F; }
+
+    code {
+      color: black;
+      line-height: 1em;
+      font-family: Monaco, monospaced;
+    }
+    
+    p { margin: 1em 0; }
+    
+    em { font-style: italic; }
+    
+    strong { font-weight: bold; }
+
+    #example {
+      text-align: center;
+      margin-bottom: 4em;
+    }
+    
+      #example code {
+        background-color: transparent;
+        color: #999;
+        font-size: 2em;
+        display: block;
+      }
+    
+    #frosty {
+      color: black;
+      font-size: 20em;
+      line-height: 1em;
+    }
+    
+    pre {
+      background-color: #eee;
+      padding: 1em;
+      overflow: auto;
+    }
+    
+    pre code {
+      color: #666;
+      background-color: transparent;
+    }
+    
+    footer {
+      font-size: 1.2em;
+      text-align: center;
+      padding-top: 1em;
+    }
+
+  </style>
+  <body>
+    
+    <article>
+      <section id="example">
+        <span id="frosty">&#9731;</span>
+        <code>&amp;#9731;</code>
+      </section>
+    
+      <h1>What's with the <code>_snowman_</code> tag in Rails?</h1>
+      
+      <p>The <em>snowman</em> input tag forces Internet Explorer to properly respect your form's character encoding.</p>
+      
+      <p>Rails uses the <code>accept-charset</code> attribute in your <code>form</code> element to let the server know that it should be able to deal with unicode characters (think of a user searching for <em>caf&eacute;</em>). Here's an example:</p>
+      
+      <pre><code>&lt;form <strong>accept-charset='UTF-8'</strong> action='/posts' id='create-post' method='post'&gt;
+  &hellip;
+&lt;/form&gt;</code></pre>
+      
+      <p>Unfortunately, IE5+ will not look at <code>accept-charset</code> unless at least one character in the form's values is not in the page's charset. Since the user can override the default charset (which Rails sets to UTF-8), Rails provides a hidden input containing a unicode character, forcing IE to look at the accept-charset. The unicode character is a snowman. Here's the tag:</p>
+      
+      <pre><code>&lt;input name="_snowman_" type="hidden" value="&amp;#9731;" /&gt;</code></pre>
+      
+      <p>You can safely ignore <code>params[:_snowman_]</code> in your Rails application.</p>
+      
+      <h1>Why does it matter? What's the impact on my users?</h1>
+      
+      <p>From <a href="http://yehudakatz.com/">wycats</a>, author of the patch:</p>
+      
+      <blockquote>
+        <p>This bug exists in IE5, IE6, IE7, and IE8. If the user switches the browser's encoding to Latin-1 (to understand why a user would decide to do something seemingly so crazy, check out <a href="http://www.google.com/search?sourceid=chrome&amp;ie=UTF-8&amp;q=diamond+with+a+question+mark+in+it">this google search</a>), any form submission will be sent in Latin-1.</p>
+        
+        <p>This means that if a user searches for "Ch&eacute; Guevara", it will come through incorrectly on the server-side. In Ruby 1.9, this will result in an encoding error when the text inevitably makes its way into the regular expression engine. In Ruby 1.8, it will result in broken results for the user.</p>
+
+        <p>By creating a parameter that can only be understood by IE as a unicode character, we are forcing IE to look at the accept-charset attribute, which then tells it to encode all of the characters as UTF-8, even ones that can be encoded in Latin-1.</p>
+
+        <p>Keep in mind that in Ruby 1.8, it is extremely trivial to get Latin-1 data into your UTF-8 database (since NOTHING in the entire stack checks that the bytes that the user sent at any point are valid UTF-8 characters). As a result, it's extremely common for Ruby applications (and PHP applications, etc. etc.) to exhibit this user-facing bug, and therefore extremely common for users to try to change the encoding as a palliative measure.</p>
+
+        <p>All that said, when I wrote this patch, I didn't realize that the name of the parameter would ever appear in a user-facing place (it does with forms that use the GET action, such as search forms). Since it does, we will rename this parameter to _e, and use a more innocuous-looking unicode character.</p>
+      </blockquote>
+      
+      <footer>
+        <a href="http://github.com/rails/rails/commit/25215d7285db10e2c04d903f251b791342e4dd6a">See the patch on GitHub</a>
+      </footer>
+      
+    </article>
+    
+  </body>
+</html>
