@@ -106,6 +106,9 @@
       
       <p>You can safely ignore <code>params[:_snowman_]</code> in your Rails application.</p>
       
+      <p><strong>Note:</strong> This is a brand new feature, and <code>_snowman_</code> may get renamed to <code>_e</code>.<p>
+        
+      
       <h1>Why does it matter? What's the impact on my users?</h1>
       
       <p>From <a href="http://yehudakatz.com/">wycats</a>, author of the patch:</p>
@@ -118,8 +121,6 @@
         <p>By creating a parameter that can only be understood by IE as a unicode character, we are forcing IE to look at the <code>accept-charset</code> attribute, which then tells it to encode all of the characters as UTF-8, even ones that can be encoded in Latin-1.</p>
 
         <p>Keep in mind that in Ruby 1.8, it is extremely trivial to get Latin-1 data into your UTF-8 database (since NOTHING in the entire stack checks that the bytes that the user sent at any point are valid UTF-8 characters). As a result, it's extremely common for Ruby applications (and PHP applications, etc. etc.) to exhibit this user-facing bug, and therefore extremely common for users to try to change the encoding as a palliative measure.</p>
-
-        <p>All that said, when I wrote this patch, I didn't realize that the name of the parameter would ever appear in a user-facing place (it does with forms that use the GET action, such as search forms). Since it does, we will rename this parameter to _e, and use a more innocuous-looking unicode character.</p>
       </blockquote>
       
       <footer>
