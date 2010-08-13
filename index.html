@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <meta charset="utf-8">
-  <title>Rails Snowman (&#9731;)</title>
+  <title>What is the Rails _utf8/_snowman tag?</title>
   <style type="text/css" media="screen">
     body {
      background-color: #eee;
@@ -92,9 +92,9 @@
         <code>&amp;#9731;</code>
       </section>
     
-      <h1>What's with the <code>_snowman</code> tag in Rails?</h1>
+      <h1>What's with the <code>_utf8</code>/<code>_e</code>/<code>_snowman</code> tag in Rails 3?</h1>
       
-      <p>The <em>snowman</em> input tag forces Internet Explorer to properly respect your form's character encoding.</p>
+      <p>The <code>_utf8</code> input tag forces Internet Explorer to properly respect your form's character encoding.</p>
       
       <p>Rails uses the <code>accept-charset</code> attribute in your <code>form</code> element to let the server know that it should be able to deal with unicode characters (think of a user searching for <em>caf&eacute;</em>). Here's an example:</p>
       
@@ -102,15 +102,14 @@
   &hellip;
 &lt;/form&gt;</code></pre>
       
-      <p>Unfortunately, IE5+ will not look at <code>accept-charset</code> unless at least one character in the form's values is not in the page's charset. Since the user can override the default charset (which Rails sets to UTF-8), Rails provides a hidden input containing a unicode character, forcing IE to look at the <code>accept-charset</code>. The unicode character is a snowman. Here's what the tag looks like:</p>
+      <p>Unfortunately, IE5-IE8 will not look at <code>accept-charset</code> unless at least one character in the form's values is not in the page's charset. Since the user can override the default charset at the browser level, Rails provides a hidden input containing a unicode character (Rails' default encoding is UTF-8), forcing IE to look at <code>accept-charset</code>. The unicode character is a snowman. Here's what the tag looks like:</p>
       
-      <pre><code>&lt;input name="_snowman" type="hidden" value="&amp;#9731;" /&gt;</code></pre>
+      <pre><code>&lt;input name="_utf8" type="hidden" value="&amp;#9731;" /&gt;</code></pre>
       
-      <p>You can safely ignore <code>params[:_snowman]</code> in your Rails application.</p>
+      <p>You can safely ignore <code>params[:_utf8]</code> in your Rails application.</p>
       
-      <p><strong>Note:</strong> This is a brand new feature, and <code>_snowman</code> may get renamed to <code>_e</code>.<p>
+      <p><b>Note:</b> The <code>_utf8</code> tag might be rendered as <code>_e</code> or <code>_snowman</code> depending on how recent your edge version of Rails is.</p>
         
-      
       <h1>Why does it matter? What's the impact on my users?</h1>
       
       <p>From <a href="http://yehudakatz.com/">wycats</a>, author of the patch:</p>
@@ -126,8 +125,8 @@
       </blockquote>
       
       <footer>
-        <a href="http://github.com/rails/rails/commit/25215d7285db10e2c04d903f251b791342e4dd6a">See the patch on GitHub...</a>
-        <a href="http://github.com/rails/rails/commit/caab17611668ff18a3c8642b2d45b353be5d9691" class="lesser">(and subsequent fix)</a>
+        <a href="http://github.com/rails/rails/commit/25215d7285db10e2c04d903f251b791342e4dd6a">See the initial patch on GitHub...</a>
+        <a href="http://github.com/rails/rails/commit/c49144b2f7b2cb9b59ea3a9cddd69de47f268ae6" class="lesser">(and subsequent change)</a>
       </footer>
       
     </article>
